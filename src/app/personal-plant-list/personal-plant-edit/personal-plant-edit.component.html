@@ -1,0 +1,21 @@
+<p *ngIf="auth.isAuthenticated()">
+  personal-plant-edit works!
+</p>
+<div class="panel panel-default profile-area" *ngIf="!auth.isAuthenticated()">
+  <div class="panel-heading"><h3>Please login to use this application</h3></div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+
+        <div class="app-msg-helper">
+          <p class="bg-primary">You shouldn't be here!</p>
+        </div>
+
+        <img class="img-responsive img-rounded clearfix " src="https://media.giphy.com/media/3o6fIQzTpZkvB573UI/giphy.gif" />
+
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
+</div>
