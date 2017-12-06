@@ -5,16 +5,19 @@ import { PersonalPlantListComponent } from './personal-plant-list/personal-plant
 import { HomeComponent } from './home/home.component';
 import { CallbackComponent } from './callback/callback.component';
 import { ProfileComponent } from './profile/profile.component';
+import {PlantStartComponent} from './plants/plant-start/plant-start.component';
+import {PlantEditComponent} from './plants/plant-edit/plant-edit.component';
+import {PlantDetailComponent} from './plants/plant-detail/plant-detail.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'plants', component: PlantsComponent },
-    // children: [
-    //   { path: '', component: RecipeStartComponent },
-    //   { path: 'new', component: RecipeEditComponent },
-    //   { path: ':id', component: RecipeDetailComponent },
-    //   { path: ':id/edit', component: RecipeEditComponent },
-    // ] },
+  { path: 'plants', component: PlantsComponent,
+    children: [
+      { path: '', component: PlantStartComponent },
+      { path: 'new', component: PlantEditComponent },
+      { path: ':id', component: PlantDetailComponent },
+      { path: ':id/edit', component: PlantEditComponent },
+    ] },
   { path: 'personal-plant-list', component: PersonalPlantListComponent },
   { path: 'callback', component: CallbackComponent },
   { path: 'profile', component: ProfileComponent }

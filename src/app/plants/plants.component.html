@@ -1,6 +1,11 @@
-<p *ngIf="auth.isAuthenticated()">
-  plants works!
-</p>
+<div class="row" *ngIf="auth.isAuthenticated()">
+  <div class="col-md-5">
+    <app-plant-list></app-plant-list>
+  </div>
+  <div class="col-md-7">
+    <router-outlet></router-outlet>
+  </div>
+</div>
 <div class="panel panel-default profile-area" *ngIf="!auth.isAuthenticated()">
   <div class="panel-heading"><h3>Please login to use this application</h3></div>
   <div class="panel-body">
