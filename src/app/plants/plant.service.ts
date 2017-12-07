@@ -6,6 +6,7 @@ import { PersonalPlantListService } from '../personal-plant-list/personal-plant-
 import { HttpClient } from '@angular/common/http';
 import { AuthHttp } from 'angular2-jwt';
 import { apiEndpoint } from '../shared/data.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Injectable()
 export class PlantService {
@@ -22,9 +23,13 @@ export class PlantService {
   //   });
   // }
 
-  getPlants(): Promise<Plant[]> {
-    return this.authHttp.get(apiEndpoint + '/plants').toPromise()
-      .then( map(res => res.json()))
+  getPlants(): Subscription {
+    return this.authHttp.get(apiEndpoint + '/plants')
+      .subscribe(
+        data => console.log(data),
+        err => console.log(err),
+        () => console.log('request done')
+      );
   }
 
   getPlant(index: number) {
