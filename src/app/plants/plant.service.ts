@@ -3,33 +3,29 @@ import { Subject } from 'rxjs/Subject';
 
 import { Plant } from '../shared/plant.model';
 import { PersonalPlantListService } from '../personal-plant-list/personal-plant-list.service';
-import { HttpClient } from '@angular/common/http';
-import { AuthHttp } from 'angular2-jwt';
+import {Headers, Http} from '@angular/http';
 import { apiEndpoint } from '../shared/data.service';
-import {Subscription} from 'rxjs/Subscription';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class PlantService {
-  plantsChanged = new Subject<Plant[]>();
+  private headers = new Headers({ 'Content-Type': 'application/json', 'X-Access-Token': this.auth.getToken() });
+  private plants: Plant[] = [];
+  public plantsChanged = new Subject<Plant[]>();
 
-  public plants: Plant[] = [];
+  constructor(private slService: PersonalPlantListService, private http: Http, private auth: AuthService) {}
 
-  constructor(private slService: PersonalPlantListService, private http: HttpClient, private authHttp: AuthHttp) {}
-
-  // getPlants(): Promise<Plant[]> {
-  //   return this.authHttp.get(apiEndpoint + '/plants').toPromise().then(response => {
-  //     this.plants = response as Plant[];
-  //     return this.plants;
-  //   });
-  // }
-
-  getPlants(): Subscription {
-    return this.authHttp.get(apiEndpoint + '/plants')
-      .subscribe(
-        data => console.log(data),
-        err => console.log(err),
-        () => console.log('request done')
-      );
+  getPlants() {
+    return this.http.get(apiEndpoint + '/plants', { headers: this.headers })
+      .toPromise()
+      .then(res => {
+        this.plants = res.json();
+        return res.json() as Plant[];
+      })
+      .catch(err => {
+        return this.handleError(err);
+      });
+      // this.plants = response as Plant[];
   }
 
   getPlant(index: number) {
@@ -37,10 +33,17 @@ export class PlantService {
   }
 
   addPlant(plant: Plant) {
-    this.authHttp.post(apiEndpoint + '/plants', plant).subscribe(data => {
-      this.plants.push(<Plant>data);
-      this.plantsChanged.next(this.plants.slice());
-    });
+    this.http.post(apiEndpoint + '/plants', plant, { headers: this.headers })
+      .toPromise()
+      .then(res => {
+        console.log(this.plants);
+        this.plants.push(res.json() as Plant);
+        this.plantsChanged.next(this.plants.slice());
+        console.log(this.plants);
+      })
+      .catch(err => {
+        return this.handleError(err);
+      });
   }
 
   updatePlant(index: number, newPlant: Plant) {
@@ -59,6 +62,11 @@ export class PlantService {
     this.http.delete(apiEndpoint + '/plants/' + old.id).subscribe();
 
     this.plantsChanged.next(this.plants.slice());
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.log('handleError');
+    return Promise.reject(error.message || error);
   }
 
 }

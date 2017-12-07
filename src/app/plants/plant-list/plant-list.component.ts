@@ -11,9 +11,9 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./plant-list.component.css']
 })
 export class PlantListComponent implements OnInit, OnDestroy {
-
   plants: Plant[];
   subscription: Subscription;
+
   constructor(public auth: AuthService,
               private plantService: PlantService,
               private router: Router,
@@ -27,9 +27,9 @@ export class PlantListComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.plantService.getPlants().then(plants => {
-      this.plants = plants;
-    });
+    this.plantService.getPlants()
+      .then(res => this.plants = res)
+      .catch(err => console.log(err));
   }
 
   onNewPlant() {

@@ -1,21 +1,23 @@
 import { Plant } from '../shared/plant.model';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient } from '@angular/common/http';
+import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { apiEndpoint } from '../shared/data.service';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class PersonalPlantListService {
-  plantsChanged = new Subject<Plant[]>();
-  startedEditing = new Subject<number>();
+  private plantsChanged = new Subject<Plant[]>();
+  private startedEditing = new Subject<number>();
+  private headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': this.auth.getToken() });
 
   private plants: Plant[];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: Http, private auth: AuthService) { }
 
   getLists(): Promise<Plant[]> {
-    return this.http.get(apiEndpoint + '/plant-list').toPromise().then(response => {
-      this.plants = response as Plant[];
+    return this.http.get(apiEndpoint + '/plant-list', { headers: this.headers }).toPromise().then(response => {
+      // this.plants = response as Plant[];
       return this.plants;
     });
     // return this.plants.slice();

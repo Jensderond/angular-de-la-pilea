@@ -26,16 +26,7 @@ import { PlantStartComponent } from './plants/plant-start/plant-start.component'
 import { PlantItemComponent } from './plants/plant-list/plant-item/plant-item.component';
 import {PersonalPlantListService} from './personal-plant-list/personal-plant-list.service';
 import {PlantService} from './plants/plant.service';
-import {HttpClientModule} from '@angular/common/http';
-
-
-
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig({
-    tokenGetter: (() => localStorage.getItem('access_token')),
-    globalHeaders: [{'Content-Type': 'application/json'}],
-  }), http, options);
-}
+import { TOKEN_NAME } from './shared/data.service';
 
 
 @NgModule({
@@ -53,7 +44,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HomeComponent,
     ProfileComponent,
     PlantStartComponent,
-    PlantItemComponent
+    PlantItemComponent,
     LoginComponent,
     RegisterComponent
   ],
@@ -61,17 +52,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
     HttpModule,
     AppRoutingModule
   ],
   providers: [
     AuthService,
-    {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    },
     PersonalPlantListService,
     PlantService
   ],

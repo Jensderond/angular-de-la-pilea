@@ -1,5 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { AuthService } from '../auth/auth.service';
+import * as jwt_decode from 'jwt-decode';
+import { User } from '../shared/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -7,20 +9,20 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profile: any;
+
+  public user: User;
 
   constructor(public auth: AuthService) { }
 
   ngOnInit() {
     if ( this.auth.isAuthenticated() ) {
-      if (this.auth.userProfile) {
-        this.profile = this.auth.userProfile;
-      } else {
-        this.auth.getProfile((err, profile) => {
-          this.profile = profile;
-        });
-      }
+      this.getProfileInfo(this.auth.getToken());
     }
+  }
+
+  public getProfileInfo(token) {
+    const profileInfo = jwt_decode(token);
+    this.user = new User( profileInfo.userId, profileInfo.name, profileInfo.email );
   }
 
 }

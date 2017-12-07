@@ -1,81 +1,65 @@
 import { Injectable } from '@angular/core';
-import { AUTH_CONFIG } from './auth0-variables';
-import { Router } from '@angular/router';
-import 'rxjs/add/operator/filter';
-import * as auth0 from 'auth0-js';
+import { Http, Headers, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import * as jwt_decode from 'jwt-decode';
+import { TOKEN_NAME } from '../shared/data.service';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthService {
 
-  auth0 = new auth0.WebAuth({
-    clientID: AUTH_CONFIG.clientID,
-    domain: AUTH_CONFIG.domain,
-    responseType: 'token id_token',
-    audience: AUTH_CONFIG.apiUrl,
-    redirectUri: AUTH_CONFIG.callbackURL,
-    scope: 'openid profile read:messages'
-  });
+  constructor(private http: Http) { }
 
-  userProfile: any;
-
-  constructor(public router: Router) {}
-
-  public login(): void {
-    this.auth0.authorize();
-  }
-
-  public handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        window.location.hash = '';
-        this.setSession(authResult);
-        this.router.navigate(['/']);
-      } else if (err) {
-        this.router.navigate(['/']);
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
-      }
-    });
-  }
-
-  public getProfile(cb): void {
-    const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      throw new Error('Access token must exist to fetch profile');
-    }
-
-    const self = this;
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
-      if (profile) {
-        self.userProfile = profile;
-      }
-      cb(err, profile);
-    });
-  }
-
-  private setSession(authResult): void {
-    // Set the time that the access token will expire at
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
-  }
-
-  public logout(): void {
-    // Remove tokens and expiry time from localStorage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-    // Go back to the home route
-    this.router.navigate(['/']);
-  }
 
   public isAuthenticated(): boolean {
-    // Check whether the current time is past the
-    // access token's expiry time
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
+    if ( this.getToken() ) {
+      const expiresAt = this.getTokenExpirationDate(this.getToken());
+      return new Date().getTime() < expiresAt.getTime();
+    } else {
+      return false;
+    }
+
   }
 
-}
+  public getToken(): string {
+    return localStorage.getItem(TOKEN_NAME);
+  }
 
+  private setToken(token: string): void {
+    localStorage.setItem(TOKEN_NAME, token);
+  }
+
+  public getTokenExpirationDate(token: string): Date {
+    const decoded = jwt_decode(token);
+
+    if (decoded.exp === undefined) { return null; }
+
+    const date = new Date(0);
+    date.setUTCSeconds(decoded.exp);
+    return date;
+  }
+
+  login(username: string, password: string): Observable<boolean> {
+    return this.http.post('http://localhost:3010/api/authenticate', { email: username, password: password })
+      .map((response: Response) => {
+        // login successful if there's a jwt token in the response
+        const responseToken = response.json().token;
+        if (responseToken) {
+
+          // store username and jwt token in local storage to keep user logged in between page refreshes
+          this.setToken(responseToken);
+
+          // return true to indicate successful login
+          return true;
+        } else {
+          // return false to indicate failed login
+          return false;
+        }
+      });
+  }
+
+  logout(): void {
+    // clear token remove user from local storage to log user out
+    localStorage.removeItem(TOKEN_NAME);
+  }
+}
