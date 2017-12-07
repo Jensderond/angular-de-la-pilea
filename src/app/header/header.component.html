@@ -14,7 +14,7 @@
         <button class="btn btn-warning navbar-btn" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
           Logout
         </button>
-        <button class="btn btn-primary navbar-btn" *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
+        <button class="btn btn-primary navbar-btn" *ngIf="!auth.isAuthenticated()" (click)="toLoginPage()">
           Login
         </button>
         <li class="dropdown" appDropdown>

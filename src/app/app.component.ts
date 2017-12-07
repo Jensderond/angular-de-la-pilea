@@ -7,14 +7,7 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  loadedFeature = 'plants';
 
+  constructor(public auth: AuthService) { }
 
-  constructor(public auth: AuthService) {
-    auth.handleAuthentication();
-  }
-
-  onNavigate(feature: string) {
-    this.loadedFeature = feature;
-  }
 }

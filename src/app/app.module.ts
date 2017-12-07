@@ -1,11 +1,8 @@
 ///<reference path="../../node_modules/@angular/router/src/config.d.ts"/>
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule, Http, RequestOptions } from '@angular/http';
-import {RouterModule} from '@angular/router';
-
-
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { Http, RequestOptions, HttpModule} from '@angular/http';
 
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
@@ -23,14 +20,13 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { CallbackComponent } from './callback/callback.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-
-
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig({
-    tokenGetter: (() => localStorage.getItem('access_token')),
-    globalHeaders: [{'Content-Type': 'application/json'}],
-  }), http, options);
-}
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { PlantStartComponent } from './plants/plant-start/plant-start.component';
+import { PlantItemComponent } from './plants/plant-list/plant-item/plant-item.component';
+import {PersonalPlantListService} from './personal-plant-list/personal-plant-list.service';
+import {PlantService} from './plants/plant.service';
+import { TOKEN_NAME } from './shared/data.service';
 
 
 @NgModule({
@@ -46,21 +42,23 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DropdownDirective,
     CallbackComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    PlantStartComponent,
+    PlantItemComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     AppRoutingModule
   ],
   providers: [
     AuthService,
-    {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    }
+    PersonalPlantListService,
+    PlantService
   ],
   bootstrap: [AppComponent]
 })
