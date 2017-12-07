@@ -5,6 +5,8 @@ import { PersonalPlantListComponent } from './personal-plant-list/personal-plant
 import { HomeComponent } from './home/home.component';
 import { CallbackComponent } from './callback/callback.component';
 import { ProfileComponent } from './profile/profile.component';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
 import {PlantStartComponent} from './plants/plant-start/plant-start.component';
 import {PlantEditComponent} from './plants/plant-edit/plant-edit.component';
 import {PlantDetailComponent} from './plants/plant-detail/plant-detail.component';
@@ -20,7 +22,9 @@ const appRoutes: Routes = [
     ] },
   { path: 'personal-plant-list', component: PersonalPlantListComponent },
   { path: 'callback', component: CallbackComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile', component: ProfileComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent }
 ];
 
 @NgModule({

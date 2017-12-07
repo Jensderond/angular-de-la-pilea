@@ -20,6 +20,8 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { CallbackComponent } from './callback/callback.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { PlantStartComponent } from './plants/plant-start/plant-start.component';
 import { PlantItemComponent } from './plants/plant-list/plant-item/plant-item.component';
 import {PersonalPlantListService} from './personal-plant-list/personal-plant-list.service';
@@ -52,6 +54,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProfileComponent,
     PlantStartComponent,
     PlantItemComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
