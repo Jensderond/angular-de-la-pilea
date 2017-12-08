@@ -30,11 +30,6 @@ export class PlantEditComponent implements OnInit {
   }
 
   onSubmit() {
-    // const newRecipe = new Recipe(
-    //   this.recipeForm.value['name'],
-    //   this.recipeForm.value['description'],
-    //   this.recipeForm.value['imagePath'],
-    //   this.recipeForm.value['ingredients']);
     if (this.editMode) {
       this.plantService.updatePlant(this.id, this.plantForm.value);
     } else {
