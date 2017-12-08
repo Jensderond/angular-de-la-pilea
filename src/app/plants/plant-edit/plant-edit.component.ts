@@ -10,7 +10,7 @@ import {PlantService} from '../plant.service';
   styleUrls: ['./plant-edit.component.css']
 })
 export class PlantEditComponent implements OnInit {
-  id: number;
+  id: string;
   editMode = false;
   plantForm: FormGroup;
   constructor(public auth: AuthService,
@@ -22,7 +22,7 @@ export class PlantEditComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
+          this.id = params['id'];
           this.editMode = params['id'] != null;
           this.initForm();
         }
@@ -51,33 +51,33 @@ export class PlantEditComponent implements OnInit {
   }
 
   private initForm() {
-    let plantName = '';
-    let plantImagePath = '';
-    let plantDescription = '';
-    const plantNicknames = new FormArray([]);
-
-    if (this.editMode) {
-      const plant = this.plantService.getPlant(this.id);
-      plantName = plant.name;
-      plantImagePath = plant.imagePath;
-      plantDescription = plant.description;
-      if (plant['nicknames']) {
-        for (const nickname of plant.nicknames ) {
-          plantNicknames.push(
-            new FormGroup({
-              'name': new FormControl(nickname, Validators.required)
-            })
-          );
-        }
-      }
-    }
-
-    this.plantForm = new FormGroup({
-      'name': new FormControl(plantName, Validators.required),
-      'imagePath': new FormControl(plantImagePath, Validators.required),
-      'description': new FormControl(plantDescription, Validators.required),
-      'nicknames': plantNicknames
-    });
+    // let plantName = '';
+    // let plantImagePath = '';
+    // let plantDescription = '';
+    // const plantNicknames = new FormArray([]);
+    //
+    // if (this.editMode) {
+    //   const plant = this.plantService.getPlant(this.id.toString());
+    //   plantName = plant.name;
+    //   plantImagePath = plant.imagePath;
+    //   plantDescription = plant.description;
+    //   if (plant['nicknames']) {
+    //     for (const nickname of plant.nicknames ) {
+    //       plantNicknames.push(
+    //         new FormGroup({
+    //           'name': new FormControl(nickname, Validators.required)
+    //         })
+    //       );
+    //     }
+    //   }
+    // }
+    //
+    // this.plantForm = new FormGroup({
+    //   'name': new FormControl(plantName, Validators.required),
+    //   'imagePath': new FormControl(plantImagePath, Validators.required),
+    //   'description': new FormControl(plantDescription, Validators.required),
+    //   'nicknames': plantNicknames
+    // });
   }
 
 }

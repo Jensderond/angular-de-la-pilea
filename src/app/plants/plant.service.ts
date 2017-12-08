@@ -27,29 +27,35 @@ export class PlantService {
       // this.plants = response as Plant[];
   }
 
-  getPlant(index: number) {
-    return this.plants[index];
+  getPlant(id: string) {
+    return this.http.get(apiEndpoint + '/plants/' + id , this.auth.jwt())
+        .toPromise()
+        .then(res => {
+          // this.plants = res.json();
+          return res.json() as Plant;
+        })
+        .catch(err => {
+          return this.handleError(err);
+        });
   }
 
   addPlant(plant: Plant) {
     this.http.post(apiEndpoint + '/plants', plant, this.auth.jwt())
       .toPromise()
       .then(res => {
-        console.log(this.plants);
         this.plants.push(res.json() as Plant);
         this.plantsChanged.next(this.plants.slice());
-        console.log(this.plants);
       })
       .catch(err => {
         return this.handleError(err);
       });
   }
 
-  updatePlant(index: number, newPlant: Plant) {
-    const old = this.plants[index];
+  updatePlant(id: string, newPlant: Plant) {
+    const index = this.findIndex(id);
 
     this.plants[index] = newPlant;
-    this.http.put(apiEndpoint + '/plants/' + old.id, newPlant).subscribe();
+    this.http.put(apiEndpoint + '/plants/' + id, newPlant).subscribe();
 
     this.plantsChanged.next(this.plants.slice());
   }
@@ -61,6 +67,15 @@ export class PlantService {
     this.http.delete(apiEndpoint + '/plants/' + old.id).subscribe();
 
     this.plantsChanged.next(this.plants.slice());
+  }
+
+  private findIndex(id: string): number {
+    for (let i = 0; i < this.plants.length; i++) {
+      if ( this.plants[i]['_id'] === id ) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   private handleError(error: any): Promise<any> {

@@ -1,6 +1,30 @@
-<p *ngIf="auth.isAuthenticated()">
-  plant-detail works!
-</p>
+<div class="row" *ngIf="auth.isAuthenticated()">
+  <div class="row" *ngIf="currentPlant">
+    <div class="col-xs-12">
+      <h2>{{ currentPlant.name }}</h2>
+    </div>
+    <div class="col-xs-12">
+      <p>{{ currentPlant.description }}</p>
+    </div>
+    <div class="col-xs-12">
+      <h4>Nicknames</h4>
+      <ul>
+        <li *ngFor="let nickname of currentPlant.nicknames">
+          {{ nickname.name }}
+        </li>
+      </ul>
+
+    </div>
+    <div class="col-xs-12">
+      <img
+        [src]="currentPlant.imagePath"
+        alt="{{ currentPlant.name }}"
+        class="img-responsive"
+        style="max-height: 300px;">
+    </div>
+  </div>
+
+</div>
 <div class="panel panel-default profile-area" *ngIf="!auth.isAuthenticated()">
   <div class="panel-heading"><h3>Please login to use this application</h3></div>
   <div class="panel-body">

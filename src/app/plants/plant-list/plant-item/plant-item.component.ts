@@ -11,7 +11,6 @@ export class PlantItemComponent implements OnInit {
   @Input() index: number;
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

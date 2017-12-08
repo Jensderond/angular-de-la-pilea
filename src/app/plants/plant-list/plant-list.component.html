@@ -8,9 +8,9 @@
   <div class="row">
     <div class="col-xs-12">
       <app-plant-item
-        *ngFor="let plantEl of plants; let i = index"
+        *ngFor="let plantEl of plants;"
         [plant]="plantEl"
-        [index]="i">
+        [index]="plantEl._id">
       </app-plant-item>
     </div>
   </div>

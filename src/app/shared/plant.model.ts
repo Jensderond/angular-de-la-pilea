@@ -1,5 +1,5 @@
 export class Plant {
-  private _id?: string;
+  _id?: string;
   private _name: string;
   private _description: string;
   private _type: string;
@@ -8,11 +8,15 @@ export class Plant {
   private _imagePath: string;
   private _sunLevel: number;
   private _waterLevel: number;
-  private _nicknames: string[];
+  private _nicknames: {
+                  type: [ {
+                    type: string,
+                  }],
+                };
 
   constructor(_id: string = null, name: string, description: string,
               type: string, origin: string, genus: string, imagePath: string,
-              sunLevel: number, waterLevel: number, nicknames: string[] ) {
+              sunLevel: number, waterLevel: number, nicknames: { type: [{ type: string }] } ) {
     this.id = _id;
     this.name = name;
     this.description = description;
@@ -97,11 +101,11 @@ export class Plant {
     this._waterLevel = value;
   }
 
-  get nicknames(): string[] {
+  get nicknames(): { type: [{ type: string }] } {
     return this._nicknames;
   }
 
-  set nicknames(value: string[]) {
+  set nicknames(value: { type: [{ type: string }] }) {
     this._nicknames = value;
   }
 }
