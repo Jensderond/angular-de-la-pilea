@@ -1,24 +1,26 @@
-<div class="row" *ngIf="auth.isAuthenticated()">
+<div class="row">
   <div class="col-xs-12">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-xs-12">
-          <button
-            type="submit"
-            class="btn btn-success"
-            [disabled]="!registerForm.valid">Register</button>
-          <button type="button" class="btn btn-danger" (click)="onLogin()">Login</button>
-        </div>
+    <h1>Register form</h1>
+    <div class="row">
+      <div class="col-xs-12">
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+        <img *ngIf="loading" src="../../assets/loading.svg" />
       </div>
+    </div>
+    <form name="registerForm" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
       <div class="row">
         <div class="col-xs-12">
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
             <label for="name">Name</label>
             <input
               type="text"
+              class="form-control"
               id="name"
-              formControlName="name"
-              class="form-control">
+              name="name"
+              [(ngModel)]="user.name"
+              #name="ngModel"
+              required />
+            <div *ngIf="f.submitted && !name.valid" class="help-block">Username is required</div>
           </div>
         </div>
       </div>
@@ -29,21 +31,29 @@
             <input
               type="email"
               id="email"
-              formControlName="email"
-              class="form-control">
+              name="email"
+              [(ngModel)]="user.email"
+              #email="ngModel"
+              class="form-control"
+              required >
           </div>
+          <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <div class="form-group">
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
             <label for="password">Password</label>
             <input
               type="password"
-              id="password"
               class="form-control"
-              formControlName="description">
+              name="password"
+              id="password"
+              [(ngModel)]="user.password"
+              #password="ngModel"
+              required />
           </div>
+          <div *ngIf="f.submitted && !password.valid" class="help-block">Email is required</div>
         </div>
       </div>
       <div class="row">
@@ -53,30 +63,22 @@
             <input
               type="number"
               id="age"
-              formControlName="age"
+              name="age"
+              [(ngModel)]="user.age"
+              #age="ngModel"
               class="form-control">
           </div>
         </div>
       </div>
-    </form>
-  </div>
-</div>
-
-<div class="panel panel-default profile-area" *ngIf="!auth.isAuthenticated()">
-  <div class="panel-heading"><h3>Please login to use this application</h3></div>
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-
-        <div class="app-msg-helper">
-          <p class="bg-primary">You shouldn't be here!</p>
+      <div class="row">
+        <div class="col-xs-12">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!f.valid">Register</button>
+          <button type="button" class="btn btn-danger" (click)="onLogin()">I already have an account</button>
         </div>
-
-        <img class="img-responsive img-rounded clearfix " src="https://media.giphy.com/media/3o6fIQzTpZkvB573UI/giphy.gif" />
-
       </div>
-      <div class="col-md-4"></div>
-    </div>
+    </form>
   </div>
 </div>

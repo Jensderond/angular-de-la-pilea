@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../auth/auth.service';
 
@@ -7,7 +7,7 @@ import {AuthService} from '../auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   model: any = {};
   loading = false;
@@ -20,6 +20,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // reset login status
     this.authenticationService.logout();
+    document.body.className += 'login';
+  }
+
+  ngOnDestroy() {
+    document.body.classList.remove('login');
   }
 
   login() {

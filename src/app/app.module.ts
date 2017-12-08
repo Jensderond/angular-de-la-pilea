@@ -14,9 +14,9 @@ import { PlantEditComponent } from './plants/plant-edit/plant-edit.component';
 import { PlantListComponent } from './plants/plant-list/plant-list.component';
 import { PersonalPlantEditComponent } from './personal-plant-list/personal-plant-edit/personal-plant-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
+import { UserService } from './shared/user.service';
 
 import { AuthService } from './auth/auth.service';
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { CallbackComponent } from './callback/callback.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -26,7 +26,6 @@ import { PlantStartComponent } from './plants/plant-start/plant-start.component'
 import { PlantItemComponent } from './plants/plant-list/plant-item/plant-item.component';
 import {PersonalPlantListService} from './personal-plant-list/personal-plant-list.service';
 import {PlantService} from './plants/plant.service';
-import { TOKEN_NAME } from './shared/data.service';
 
 
 @NgModule({
@@ -58,7 +57,8 @@ import { TOKEN_NAME } from './shared/data.service';
   providers: [
     AuthService,
     PersonalPlantListService,
-    PlantService
+    PlantService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

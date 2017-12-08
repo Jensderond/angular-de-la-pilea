@@ -3,6 +3,8 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../auth/auth.service';
 import {PlantService} from '../plants/plant.service';
+import {UserService} from '../shared/user.service';
+import {User} from '../shared/user.model';
 
 @Component({
   selector: 'app-register',
@@ -11,30 +13,42 @@ import {PlantService} from '../plants/plant.service';
 })
 export class RegisterComponent implements OnInit {
 
-  public registerForm: FormGroup;
+  public user: User;
+  public loading = false;
+  public error = '';
+
   constructor(public auth: AuthService,
               private route: ActivatedRoute,
               private plantService: PlantService,
+              private userService: UserService,
+              private authService: AuthService,
               private router: Router) { }
 
   ngOnInit() {
-    this.initForm();
+    this.user = new User();
+    if ( this.auth.isAuthenticated() ) {
+      this.router.navigate(['/']);
+    }
   }
 
-  onSubmit(){
-
+  register() {
+    if ( this.user.name !== '' ) {
+      this.loading = true;
+      this.userService.addUser(this.user)
+        .subscribe(result => {
+          if (result === true) {
+            this.router.navigate(['/login']);
+          }
+        }, (err) => {
+          if (err === 'Unauthorized') {
+            this.error = 'User with this email already exists';
+            this.loading = false;
+          }
+        });
+    }
   }
 
   onLogin() {
     this.router.navigate(['/login'], {relativeTo: this.route});
-  }
-
-  private initForm() {
-    this.registerForm = new FormGroup({
-      'name': new FormControl('', Validators.required),
-      'email': new FormControl('', Validators.required),
-      'password': new FormControl('', Validators.required),
-      'age': new FormControl('', Validators.required),
-    });
   }
 }

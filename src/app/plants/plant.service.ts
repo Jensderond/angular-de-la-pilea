@@ -9,14 +9,13 @@ import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class PlantService {
-  private headers = new Headers({ 'Content-Type': 'application/json', 'X-Access-Token': this.auth.getToken() });
   private plants: Plant[] = [];
   public plantsChanged = new Subject<Plant[]>();
 
   constructor(private slService: PersonalPlantListService, private http: Http, private auth: AuthService) {}
 
   getPlants() {
-    return this.http.get(apiEndpoint + '/plants', { headers: this.headers })
+    return this.http.get(apiEndpoint + '/plants', this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plants = res.json();
@@ -33,7 +32,7 @@ export class PlantService {
   }
 
   addPlant(plant: Plant) {
-    this.http.post(apiEndpoint + '/plants', plant, { headers: this.headers })
+    this.http.post(apiEndpoint + '/plants', plant, this.auth.jwt())
       .toPromise()
       .then(res => {
         console.log(this.plants);

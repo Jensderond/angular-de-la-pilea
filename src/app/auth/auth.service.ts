@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import {Http, Headers, Response, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as jwt_decode from 'jwt-decode';
 import { TOKEN_NAME } from '../shared/data.service';
@@ -21,6 +21,14 @@ export class AuthService {
       return false;
     }
 
+  }
+
+
+  public jwt() {
+    if ( this.getToken() ) {
+      const headers = new Headers({ 'Content-Type': 'application/json', 'X-Access-Token': this.getToken() });
+      return new RequestOptions({ headers: headers});
+    }
   }
 
   public getToken(): string {
