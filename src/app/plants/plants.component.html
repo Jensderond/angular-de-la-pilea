@@ -1,9 +1,9 @@
 <div class="row" *ngIf="auth.isAuthenticated()">
-  <div class="col-md-5">
-    <app-plant-list></app-plant-list>
-  </div>
   <div class="col-md-7">
     <router-outlet></router-outlet>
+  </div>
+  <div class="col-md-5">
+    <app-plant-list></app-plant-list>
   </div>
 </div>
 <div class="panel panel-default profile-area" *ngIf="!auth.isAuthenticated()">
