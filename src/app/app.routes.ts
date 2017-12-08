@@ -10,6 +10,9 @@ import {RegisterComponent} from './register/register.component';
 import {PlantStartComponent} from './plants/plant-start/plant-start.component';
 import {PlantEditComponent} from './plants/plant-edit/plant-edit.component';
 import {PlantDetailComponent} from './plants/plant-detail/plant-detail.component';
+import {PersonalPlantListItemComponent} from './personal-plant-list/personal-plant-list-item/personal-plant-list-item.component';
+import {PersonalPlantListStartComponent} from './personal-plant-list/personal-plant-list-start/personal-plant-list-start.component';
+import {PersonalPlantListDetailComponent} from './personal-plant-list/personal-plant-list-detail/personal-plant-list-detail.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,7 +23,12 @@ const appRoutes: Routes = [
       { path: ':id', component: PlantDetailComponent },
       { path: ':id/edit', component: PlantEditComponent },
     ] },
-  { path: 'personal-plant-list', component: PersonalPlantListComponent },
+  { path: 'personal-plant-list', component: PersonalPlantListComponent ,
+    children: [
+    { path: '', component: PersonalPlantListStartComponent },
+    { path: 'new', component: PlantEditComponent },
+    { path: ':id', component: PersonalPlantListDetailComponent },
+  ] },
   { path: 'callback', component: CallbackComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },

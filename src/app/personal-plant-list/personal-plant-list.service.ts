@@ -1,58 +1,86 @@
-import { Plant } from '../shared/plant.model';
+import {ChangeDetectorRef, Injectable, Input} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Http, Headers } from '@angular/http';
-import { Injectable } from '@angular/core';
+
+import { Plant } from '../shared/plant.model';
+import {Headers, Http} from '@angular/http';
 import { apiEndpoint } from '../shared/data.service';
 import {AuthService} from '../auth/auth.service';
+import {PlantList} from '../shared/plant-list.model';
 
 @Injectable()
 export class PersonalPlantListService {
-  private plantsChanged = new Subject<Plant[]>();
-  private startedEditing = new Subject<number>();
-  private headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': this.auth.getToken() });
+  private plantLists: PlantList[] = [];
+  public plantListsChanged = new Subject<PlantList[]>();
 
-  private plants: Plant[];
+  constructor(private http: Http, private auth: AuthService) {}
 
-  constructor(private http: Http, private auth: AuthService) { }
-
-  getLists(): Promise<Plant[]> {
-    return this.http.get(apiEndpoint + '/plant-list', { headers: this.headers }).toPromise().then(response => {
-      // this.plants = response as Plant[];
-      return this.plants;
-    });
-    // return this.plants.slice();
+  getLists() {
+    return this.http.get(apiEndpoint + '/plant-list', this.auth.jwt())
+      .toPromise()
+      .then(res => {
+        this.plantLists = res.json();
+        return res.json() as PlantList[];
+      })
+      .catch(err => {
+        return this.handleError(err);
+      });
+    // this.plants = response as Plant[];
   }
 
-  getList(index: number) {
-    return this.plants[index];
+  getList(id: string) {
+    return this.http.get(apiEndpoint + '/plant-list/' + id , this.auth.jwt())
+      .toPromise()
+      .then(res => {
+        // this.plants = res.json();
+        return res.json() as PlantList;
+      })
+      .catch(err => {
+        return this.handleError(err);
+      });
   }
 
-  addPlantToList(plant: Plant) {
-    this.plants.push(plant);
-
-    this.http.post(apiEndpoint + '/plant-list', plant).subscribe();
-
-    this.plantsChanged.next(this.plants.slice());
+  addPlantList(list: PlantList) {
+    this.http.post(apiEndpoint + '/plant-list', list, this.auth.jwt())
+      .toPromise()
+      .then(res => {
+        this.plantLists.push(res.json() as PlantList);
+        this.plantListsChanged.next(this.plantLists.slice());
+      })
+      .catch(err => {
+        return this.handleError(err);
+      });
   }
 
-  updateList(index: number, newPlant: Plant) {
-    const old = this.plants[index];
+  updatePlant(id: string, newPlant: PlantList) {
+    const index = this.findIndex(id);
 
-    delete newPlant.id;
+    this.plantLists[index] = newPlant;
+    this.http.put(apiEndpoint + '/plant-list/' + id, newPlant).subscribe();
 
-    this.plants[index] = newPlant;
-
-    this.http.put(apiEndpoint + '/plant-list/' + old.id, newPlant).subscribe();
-
-    this.plantsChanged.next(this.plants.slice());
+    this.plantListsChanged.next(this.plantLists.slice());
   }
 
-  deletePlantFromList(index: number) {
-    const old = this.plants[index];
-    this.plants.splice(index, 1);
+  deletePlant(index: number) {
+    const old = this.plantLists[index];
+    this.plantLists.splice(index, 1);
 
     this.http.delete(apiEndpoint + '/plant-list/' + old.id).subscribe();
 
-    this.plantsChanged.next(this.plants.slice());
+    this.plantListsChanged.next(this.plantLists.slice());
   }
+
+  private findIndex(id: string): number {
+    for (let i = 0; i < this.plantLists.length; i++) {
+      if ( this.plantLists[i]['_id'] === id ) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.log('handleError');
+    return Promise.reject(error.message || error);
+  }
+
 }

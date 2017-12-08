@@ -26,6 +26,9 @@ import { PlantStartComponent } from './plants/plant-start/plant-start.component'
 import { PlantItemComponent } from './plants/plant-list/plant-item/plant-item.component';
 import {PersonalPlantListService} from './personal-plant-list/personal-plant-list.service';
 import {PlantService} from './plants/plant.service';
+import { PersonalPlantListItemComponent } from './personal-plant-list/personal-plant-list-item/personal-plant-list-item.component';
+import { PersonalPlantListStartComponent } from './personal-plant-list/personal-plant-list-start/personal-plant-list-start.component';
+import { PersonalPlantListDetailComponent } from './personal-plant-list/personal-plant-list-detail/personal-plant-list-detail.component';
 
 
 @NgModule({
@@ -45,7 +48,10 @@ import {PlantService} from './plants/plant.service';
     PlantStartComponent,
     PlantItemComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    PersonalPlantListItemComponent,
+    PersonalPlantListStartComponent,
+    PersonalPlantListDetailComponent
   ],
   imports: [
     BrowserModule,

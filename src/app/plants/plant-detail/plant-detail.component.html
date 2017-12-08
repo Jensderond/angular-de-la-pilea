@@ -7,7 +7,7 @@
       <p>{{ currentPlant.description }}</p>
     </div>
     <div class="col-xs-12">
-      <h4>Nicknames</h4>
+      <h4 *ngIf="currentPlant.nicknames[0]">Nicknames</h4>
       <ul>
         <li *ngFor="let nickname of currentPlant.nicknames">
           {{ nickname.name }}
