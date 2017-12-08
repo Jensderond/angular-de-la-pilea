@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import * as jwt_decode from 'jwt-decode';
 import { User } from '../shared/user.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,12 @@ export class ProfileComponent implements OnInit {
 
   public user: User;
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService,
+              private router: Router) {
+    if ( !this.auth.isAuthenticated() ) {
+      this.router.navigate(['/login']);
+    }
+  }
 
   ngOnInit() {
     if ( this.auth.isAuthenticated() ) {

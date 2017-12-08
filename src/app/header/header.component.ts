@@ -7,12 +7,17 @@ import {Router} from '@angular/router';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(public auth: AuthService, private router: Router) { }
+  public isIn = false;
+  constructor(public auth: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
   }
 
+  toggleState() { // click handler
+    const bool = this.isIn;
+    this.isIn = bool === false;
+  }
 
   toLoginPage() {
     this.router.navigate(['/login']);
