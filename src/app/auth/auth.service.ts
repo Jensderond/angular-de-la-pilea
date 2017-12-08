@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import * as jwt_decode from 'jwt-decode';
 import { TOKEN_NAME } from '../shared/data.service';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AuthService {
@@ -54,6 +56,11 @@ export class AuthService {
         } else {
           // return false to indicate failed login
           return false;
+        }
+      })
+      .catch(e => {
+        if (e.status === 403) {
+          return Observable.throw('Unauthorized');
         }
       });
   }
