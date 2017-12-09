@@ -28,7 +28,6 @@ export class ProfileComponent implements OnInit {
 
   public getProfileInfo(token) {
     const profileInfo = jwt_decode(token);
-    console.log(profileInfo);
     this.user = new User( profileInfo.userId, profileInfo.name, profileInfo.email, null, profileInfo.age );
   }
 

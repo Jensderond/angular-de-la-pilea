@@ -8,8 +8,7 @@ export class PlantList {
               }],
             };
 
-  constructor( id: string = null, userId: string = null, room: string = null, plants: { type: [{ type: Date }] } = null )
-  {
+  constructor( id: string = null, userId: string = null, room: string = null, plants: { type: [{ type: Date }] } = null ) {
     this._id = id;
     this._userId = userId;
     this._room = room;

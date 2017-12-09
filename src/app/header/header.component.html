@@ -18,13 +18,13 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
 
+        <button class="btn btn-warning navbar-btn" style="margin: 10px 15px;" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
+          Logout
+        </button>
+        <button class="btn btn-primary navbar-btn" style="margin: 10px 15px;" *ngIf="!auth.isAuthenticated()" (click)="toLoginPage()">
+          Login
+        </button>
         <li class="dropdown" appDropdown>
-          <button class="btn btn-warning navbar-btn" style="margin: 10px 15px;" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
-            Logout
-          </button>
-          <button class="btn btn-primary navbar-btn" style="margin: 10px 15px;" *ngIf="!auth.isAuthenticated()" (click)="toLoginPage()">
-            Login
-          </button>
           <a style="cursor: pointer;" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a style="cursor: pointer;">Save Data</a></li>

@@ -14,9 +14,9 @@ export class Plant {
                   }],
                 };
 
-  constructor(_id: string = null, name: string, description: string,
-              type: string, origin: string, genus: string, imagePath: string,
-              sunLevel: number, waterLevel: number, nicknames: { type: [{ type: string }] } ) {
+  constructor(_id: string = null, name: string = null, description: string = null,
+              type: string = null, origin: string = null, genus: string = null, imagePath: string = null,
+              sunLevel: number = null, waterLevel: number = null, nicknames: { type: [{ type: string }] } = null ) {
     this.id = _id;
     this.name = name;
     this.description = description;
@@ -107,5 +107,14 @@ export class Plant {
 
   set nicknames(value: { type: [{ type: string }] }) {
     this._nicknames = value;
+  }
+
+  public isValidPlant(): Boolean {
+    return this.name !== '' || this.name !== null ||
+      this.imagePath !== '' || this.imagePath !== null ||
+      this.description !== '' || this.description !== null ||
+      this.genus !== '' || this.genus !== null ||
+      this.type !== '' || this.type !== null ||
+      this.waterLevel !== null || this.sunLevel !== null;
   }
 }

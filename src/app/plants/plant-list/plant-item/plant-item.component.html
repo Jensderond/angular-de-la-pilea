@@ -1,17 +1,37 @@
-<a
-  style="cursor: pointer;"
-  [routerLink]="[index]"
-  routerLinkActive="active"
-  class="list-group-item clearfix">
-  <div class="pull-left">
-    <h4 class="list-group-item-heading">{{ plant.name }}</h4>
-    <p class="list-group-item-text">{{ plant.description }}</p>
-  </div>
-  <span class="pull-right">
+<div class="media">
+  <!--<a-->
+    <!--style="cursor: pointer;"-->
+    <!--[routerLink]="[index]"-->
+    <!--routerLinkActive="active"-->
+    <!--class="list-group-item clearfix">-->
+    <!--<div class="pull-left">-->
+      <!--<h4 class="list-group-item-heading">{{ plant.name }}</h4>-->
+      <!--<p class="list-group-item-text">{{ plant.description }}</p>-->
+    <!--</div>-->
+    <!--<span class="pull-right">-->
+          <!--<img-->
+            <!--[src]="plant.imagePath"-->
+            <!--alt="{{ plant.name }}"-->
+            <!--class="img-responsive"-->
+            <!--style="max-height: 50px;">-->
+        <!--</span>-->
+  <!--</a>-->
+
+  <a
+    style="cursor: pointer;"
+    [routerLink]="[index]"
+    routerLinkActive="active"
+    class="list-group-item clearfix">
+    <div class="media-left" style="max-width: 25%; min-width: 25%;">
         <img
-          [src]="plant.imagePath"
-          alt="{{ plant.name }}"
-          class="img-responsive"
-          style="max-height: 50px;">
-      </span>
-</a>
+           [src]="plant.imagePath"
+           alt="{{ plant.name }}"
+           class="media-object"
+           style="max-height: 75px;">
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{ plant.name }}</h4>
+      {{ plant.description.substr(0,50) }}...
+    </div>
+  </a>
+</div>

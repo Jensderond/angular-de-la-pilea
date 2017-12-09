@@ -1,5 +1,11 @@
 <div class="row" *ngIf="auth.isAuthenticated()">
   <div class="col-xs-12">
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  </div>
+  <div class="loading" *ngIf="loading">
+    <img src="../../../assets/loading.svg" />
+  </div>
+  <div class="col-xs-12">
     <form [formGroup]="plantForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
@@ -37,11 +43,6 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <img [src]="imagePath.value" class="img-responsive">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
           <div class="form-group">
             <label for="description">Description</label>
             <textarea
@@ -49,7 +50,57 @@
               id="description"
               class="form-control"
               formControlName="description"
-              rows="6"></textarea>
+              rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="genus">Genus ( eg: Pilea )</label>
+            <input
+              type="text"
+              id="genus"
+              class="form-control"
+              formControlName="genus" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="type">Type ( eg: Houseplant )</label>
+            <input
+              type="text"
+              id="type"
+              class="form-control"
+              formControlName="type" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="waterLevel">Water level ( 1-10 )</label>
+            <input
+              type="number"
+              id="waterLevel"
+              class="form-control"
+              formControlName="waterLevel"
+              />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="sunLevel">Sun level ( 1-10 )</label>
+            <input
+              type="number"
+              id="sunLevel"
+              class="form-control"
+              formControlName="sunLevel"
+              />
           </div>
         </div>
       </div>
@@ -85,6 +136,7 @@
         </div>
       </div>
     </form>
+    <hr>
   </div>
 </div>
 

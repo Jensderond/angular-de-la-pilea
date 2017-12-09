@@ -13,3 +13,9 @@ body.login {
   -o-background-size: cover;
   background-size: cover;
 }
+
+div.loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
