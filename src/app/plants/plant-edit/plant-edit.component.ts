@@ -22,7 +22,6 @@ export class PlantEditComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    // this.plant = new Plant();
     if ( !this.auth.isAuthenticated() ) {
       this.router.navigate(['/']);
     }

@@ -9,11 +9,13 @@
     <form [formGroup]="plantForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
+          <h3 class="pull-left">New Plant</h3>
+          <button type="button" class="btn btn-danger pull-right" style="margin: 20px 0 10px 10px" (click)="onCancel()">Cancel</button>
           <button
             type="submit"
-            class="btn btn-success"
+            class="btn btn-success pull-right"
+            style="margin: 20px 0 10px 0"
             [disabled]="!plantForm.valid">Save</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
         </div>
       </div>
       <div class="row">

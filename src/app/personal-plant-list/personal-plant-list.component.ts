@@ -20,6 +20,9 @@ export class PersonalPlantListComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
+    if ( !this.auth.isAuthenticated() ) {
+      this.router.navigate(['/login']);
+    }
     this.subscription = this.pplService.plantListsChanged
       .subscribe(
         (lists: PlantList[]) => {

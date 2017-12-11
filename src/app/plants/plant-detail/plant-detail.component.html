@@ -27,6 +27,29 @@
       </li>
     </ul>
   </div>
+  <hr>
+  <div class="col-xs-12" *ngIf="plantLists !== null && currentList !== null">
+
+    <div class="btn-group" appDropdown>
+      <button
+        type="button"
+        class="btn btn-default dropdown-toggle"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false">
+        Add to list <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li *ngFor="let list of plantLists">
+          <a
+          (click)="toPlantList(list._id)">
+            {{ list.room }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr>
 </div>
 
 <div class="panel panel-default profile-area" *ngIf="!auth.isAuthenticated()">

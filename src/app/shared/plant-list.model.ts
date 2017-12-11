@@ -2,13 +2,12 @@ export class PlantList {
   private _id: string;
   private _userId: string;
   private _room: string;
-  private _plants: {
-              type: [ {
-                type: Date,
-              }],
-            };
+  private _plants: [{
+              _id: string,
+              lastWatered: number,
+            }];
 
-  constructor( id: string = null, userId: string = null, room: string = null, plants: { type: [{ type: Date }] } = null ) {
+  constructor( id: string = null, userId: string = null, room: string = null, plants: [ { _id: string, lastWatered: number } ] = null ) {
     this._id = id;
     this._userId = userId;
     this._room = room;
@@ -39,11 +38,11 @@ export class PlantList {
     this._room = value;
   }
 
-  get plants(): { type: [{ type: Date }] } {
+  get plants(): [ { _id: string, lastWatered: number }]  {
     return this._plants;
   }
 
-  set plants(value: { type: [{ type: Date }] }) {
+  set plants(value: [ { _id: string, lastWatered: number }] ) {
     this._plants = value;
   }
 }

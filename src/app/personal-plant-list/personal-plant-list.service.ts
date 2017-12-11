@@ -60,6 +60,29 @@ export class PersonalPlantListService {
     this.plantListsChanged.next(this.plantLists.slice());
   }
 
+  public addToList(listId: string, plantId: string) {
+    this.http.get(apiEndpoint + '/plant-list/' + listId , this.auth.jwt())
+      .toPromise()
+      .then(res => {
+        const list = res.json() as PlantList;
+        list.plants.push( { _id: plantId, lastWatered: Date.now() } );
+        console.log(plantId);
+        console.log(list.plants);
+
+        this.http.put(apiEndpoint + '/plant-list/' + listId, list, this.auth.jwt())
+          .toPromise()
+          .then(resp => {
+            console.log(resp.json());
+          })
+          .catch((err) => {
+            return this.handleError(err);
+          });
+      })
+      .catch(err => {
+        return this.handleError(err);
+      });
+  }
+
   deletePlant(index: number) {
     const old = this.plantLists[index];
     this.plantLists.splice(index, 1);
