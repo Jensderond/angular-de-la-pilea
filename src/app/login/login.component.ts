@@ -14,12 +14,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   error = '';
 
   constructor(private router: Router,
-              private authenticationService: AuthService) {
+              private auth: AuthService) {
   }
 
   ngOnInit() {
     // reset login status
-    this.authenticationService.logout();
+    if ( this.auth.isAuthenticated() ) {
+      this.router.navigate(['/']);
+    }
     document.body.className += 'login';
   }
 
@@ -29,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.loading = true;
-    this.authenticationService.login(this.model.username, this.model.password)
+    this.auth.login(this.model.username, this.model.password)
       .subscribe(result => {
         if (result === true) {
           this.router.navigate(['/']);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../auth/auth.service';
@@ -11,7 +11,7 @@ import {User} from '../shared/user.model';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   public user: User;
   public loading = false;
@@ -29,6 +29,11 @@ export class RegisterComponent implements OnInit {
     if ( this.auth.isAuthenticated() ) {
       this.router.navigate(['/']);
     }
+    document.body.className += 'register';
+  }
+
+  ngOnDestroy() {
+    document.body.classList.remove('register');
   }
 
   register() {

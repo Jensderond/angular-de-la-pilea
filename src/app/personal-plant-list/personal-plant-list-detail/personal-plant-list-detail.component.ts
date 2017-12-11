@@ -26,11 +26,14 @@ export class PersonalPlantListDetailComponent implements OnInit {
           this.pplService.getList(this.id.toString())
             .then(list => {
               this.currentList = list;
-              console.log(this.currentList);
             })
             .catch(error => console.log(error));
         }
       );
   }
 
+  public onDelete() {
+    this.pplService.deleteList(this.id.toString());
+    this.router.navigate(['../'], {relativeTo: this.route});
+  }
 }

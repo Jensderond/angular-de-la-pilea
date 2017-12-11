@@ -6,7 +6,8 @@
 body {
   background: url("./assets/white-wall-background.jpg")
 }
-body.login {
+body.login,
+body.register {
   background: url("./assets/login-background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;

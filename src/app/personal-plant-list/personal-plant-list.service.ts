@@ -43,6 +43,7 @@ export class PersonalPlantListService {
     this.http.post(apiEndpoint + '/plant-list', list, this.auth.jwt())
       .toPromise()
       .then(res => {
+        console.log(res.json());
         this.plantLists.push(res.json() as PlantList);
         this.plantListsChanged.next(this.plantLists.slice());
       })
@@ -66,8 +67,6 @@ export class PersonalPlantListService {
       .then(res => {
         const list = res.json() as PlantList;
         list.plants.push( { _id: plantId, lastWatered: Date.now() } );
-        console.log(plantId);
-        console.log(list.plants);
 
         this.http.put(apiEndpoint + '/plant-list/' + listId, list, this.auth.jwt())
           .toPromise()
@@ -83,12 +82,10 @@ export class PersonalPlantListService {
       });
   }
 
-  deletePlant(index: number) {
-    const old = this.plantLists[index];
+  public deleteList(listId: string) {
+    const index = this.findIndex(listId);
+    this.http.delete(apiEndpoint + '/plant-list/' + listId, this.auth.jwt()).subscribe();
     this.plantLists.splice(index, 1);
-
-    this.http.delete(apiEndpoint + '/plant-list/' + old.id).subscribe();
-
     this.plantListsChanged.next(this.plantLists.slice());
   }
 

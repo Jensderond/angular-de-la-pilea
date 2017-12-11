@@ -33,7 +33,6 @@ export class PersonalPlantListComponent implements OnInit {
     this.pplService.getLists()
       .then(res => {
         this.plantLists = res;
-        console.log(res);
       })
       .catch(err => console.log(err));
   }
