@@ -3,6 +3,7 @@ import {AuthService} from '../auth/auth.service';
 import {Subscription} from 'rxjs/Subscription';
 import {PlantList} from '../shared/plant-list.model';
 import {PersonalPlantListService} from './personal-plant-list.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-personal-plant-list',
@@ -13,7 +14,10 @@ export class PersonalPlantListComponent implements OnInit {
   plantLists: PlantList[];
   subscription: Subscription;
 
-  constructor(public auth: AuthService, private pplService: PersonalPlantListService) { }
+  constructor(public auth: AuthService,
+              private pplService: PersonalPlantListService,
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.subscription = this.pplService.plantListsChanged
@@ -31,4 +35,7 @@ export class PersonalPlantListComponent implements OnInit {
       .catch(err => console.log(err));
   }
 
+  onNewList() {
+      this.router.navigate(['new'], {relativeTo: this.route});
+  }
 }

@@ -13,6 +13,7 @@ import {PlantDetailComponent} from './plants/plant-detail/plant-detail.component
 import {PersonalPlantListItemComponent} from './personal-plant-list/personal-plant-list-item/personal-plant-list-item.component';
 import {PersonalPlantListStartComponent} from './personal-plant-list/personal-plant-list-start/personal-plant-list-start.component';
 import {PersonalPlantListDetailComponent} from './personal-plant-list/personal-plant-list-detail/personal-plant-list-detail.component';
+import {PersonalPlantEditComponent} from './personal-plant-list/personal-plant-edit/personal-plant-edit.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,7 +27,7 @@ const appRoutes: Routes = [
   { path: 'personal-plant-list', component: PersonalPlantListComponent ,
     children: [
     { path: '', component: PersonalPlantListStartComponent },
-    { path: 'new', component: PlantEditComponent },
+    { path: 'new', component: PersonalPlantEditComponent },
     { path: ':id', component: PersonalPlantListDetailComponent },
   ] },
   { path: 'callback', component: CallbackComponent },

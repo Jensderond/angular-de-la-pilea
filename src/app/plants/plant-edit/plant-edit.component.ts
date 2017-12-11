@@ -29,7 +29,7 @@ export class PlantEditComponent implements OnInit {
     this.initForm();
   }
 
-  onSubmit() {
+  public onSubmit() {
     this.loading = true;
     if ( this.plantForm.valid ) {
        this.plantService.addPlant(this.plantForm.value);
@@ -37,7 +37,7 @@ export class PlantEditComponent implements OnInit {
     }
   }
 
-  onAddNickname() {
+  public onAddNickname() {
     (<FormArray>this.plantForm.get('nicknames')).push(
       new FormGroup({
         'name': new FormControl(null, Validators.required)
@@ -45,11 +45,12 @@ export class PlantEditComponent implements OnInit {
     );
   }
 
-  onDeleteNickname(index: number) {
+  public onDeleteNickname(index: number) {
     (<FormArray>this.plantForm.get('nicknames')).removeAt(index);
   }
 
-  onCancel() {
+  public onCancel() {
+    this.loading = false;
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 

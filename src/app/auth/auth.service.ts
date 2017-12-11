@@ -39,6 +39,14 @@ export class AuthService {
     localStorage.setItem(TOKEN_NAME, token);
   }
 
+  public getUserId(): string {
+    const decoded = jwt_decode(this.getToken());
+
+    if (decoded.userId === undefined) { return null; }
+
+    return decoded.userId;
+  }
+
   public getTokenExpirationDate(token: string): Date {
     const decoded = jwt_decode(token);
 
