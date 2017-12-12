@@ -1,11 +1,25 @@
 <div class="row" *ngIf="currentList">
 
   <h4>{{ currentList.room }}</h4>
-  <ul>
-    <li *ngFor="let plant of currentList.plants">
-      {{ plant }}
-    </li>
-  </ul>
+
+  <div class="media" *ngFor="let plant of currentList.plants">
+    <div class="media-left">
+      <img
+        src="{{ plant.imagePath }}"
+        class="media-object"
+        style="width:60px">
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{ plant.name }}</h4>
+      <button
+        type="button"
+        class="btn btn-danger pull-right"
+        aria-label="Left Align">
+        Remove {{ plant.name }} from list <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+  <hr>
   <button
     class="btn btn-danger"
     (click)="onDelete()">

@@ -31,7 +31,6 @@ export class PersonalPlantListService {
     return this.http.get(apiEndpoint + '/plant-list/' + id , this.auth.jwt())
       .toPromise()
       .then(res => {
-        // this.plants = res.json();
         return res.json() as PlantList;
       })
       .catch(err => {
@@ -62,24 +61,14 @@ export class PersonalPlantListService {
   }
 
   public addToList(listId: string, plantId: string) {
-    this.http.get(apiEndpoint + '/plant-list/' + listId , this.auth.jwt())
-      .toPromise()
-      .then(res => {
-        const list = res.json() as PlantList;
-        list.plants.push( { _id: plantId, lastWatered: Date.now() } );
-
-        this.http.put(apiEndpoint + '/plant-list/' + listId, list, this.auth.jwt())
-          .toPromise()
-          .then(resp => {
-            console.log(resp.json());
-          })
-          .catch((err) => {
-            return this.handleError(err);
-          });
-      })
-      .catch(err => {
-        return this.handleError(err);
-      });
+      this.http.put(apiEndpoint + '/plant-list/' + listId, { plantId: plantId }, this.auth.jwt())
+        .toPromise()
+        .then(resp => {
+          console.log(resp.json());
+        })
+        .catch((err) => {
+          return this.handleError(err);
+        });
   }
 
   public deleteList(listId: string) {

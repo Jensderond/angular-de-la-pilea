@@ -60,6 +60,7 @@ export class PlantEditComponent implements OnInit {
       'name': new FormControl(null, Validators.required),
       'imagePath': new FormControl(null, Validators.required),
       'description': new FormControl(null, Validators.required),
+      'origin': new FormControl(null, Validators.required),
       'genus': new FormControl(null, Validators.required),
       'type': new FormControl(null, Validators.required),
       'waterLevel': new FormControl(null,  [
