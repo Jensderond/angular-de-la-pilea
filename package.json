@@ -2,6 +2,7 @@
   "name": "angular-de-la-pilea-new",
   "version": "0.0.1",
   "license": "MIT",
+  "main": "server.js",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -15,6 +16,7 @@
   "dependencies": {
     "@angular/animations": "^5.0.0",
     "@angular/cli": "1.5.0",
+    "@angular/compiler-cli": "^5.0.0",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
     "@angular/core": "^5.0.0",
@@ -32,7 +34,8 @@
     "jwt-decode": "^2.2.0",
     "npm-run-all": "^4.0.1",
     "rxjs": "^5.5.2",
-    "zone.js": "^0.8.14"
+    "zone.js": "^0.8.14",
+    "typescript": "~2.4.2"
   },
   "devDependencies": {
     "@angular/cli": "1.5.0",
