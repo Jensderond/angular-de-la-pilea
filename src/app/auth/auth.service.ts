@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers, Response, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as jwt_decode from 'jwt-decode';
-import { TOKEN_NAME } from '../shared/data.service';
+import { TOKEN_NAME, apiEndpoint } from '../shared/data.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<boolean> {
-    return this.http.post('http://localhost:3010/api/authenticate', { email: username, password: password })
+    return this.http.post( apiEndpoint + '/authenticate', { email: username, password: password })
       .map((response: Response) => {
         // login successful if there's a jwt token in the response
         const responseToken = response.json().token;
