@@ -88,24 +88,8 @@ export class PersonalPlantListService {
     this.plantListsChanged.next(this.plantLists.slice());
   }
 
-  private findPlantIndex(list: PlantList, id: string): number {
-    console.log(list);
-    for (let i = 0; i < list.plants.length; i++) {
-      if ( list.plants[i]['_id'] === id ) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   private findListIndex(id: string): number {
-    console.log(':::::::id::::::');
-    console.log(id);
-    console.log(this.plantLists);
     for (let i = 0; i < this.plantLists.length; i++) {
-      console.log(this.plantLists);
-      console.log(':::::::id::::::');
-      console.log(id);
       if ( this.plantLists[i]['_id'] === id ) {
         return i;
       }

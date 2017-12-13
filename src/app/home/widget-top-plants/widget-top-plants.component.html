@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-8">
+    <h4>Top 5 plants</h4>
+    <div class="media" *ngFor="let plantEl of topPlants;">
+      <a
+        style="cursor: pointer;"
+        [routerLink]="['/plants/', plantEl._id]"
+        routerLinkActive="active"
+        class="list-group-item clearfix">
+        <div class="media-left" style="max-width: 25%; min-width: 25%;">
+          <img
+            [src]="plantEl.imagePath"
+            alt="{{ plantEl.name }}"
+            class="media-object"
+            style="width: 100%;">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{ plantEl.name }}</h4>
+          {{ plantEl.description.substr(0,50) }}...
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+

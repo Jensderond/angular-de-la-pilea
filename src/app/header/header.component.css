@@ -1,0 +1,9 @@
+.navbar-brand {
+  line-height: 50px;
+  height: 80px;
+}
+.navbar-nav > li > a,
+.btn.btn-warning.navbar-btn,
+.btn.btn-primary.navbar-btn {
+  line-height: 50px;
+}

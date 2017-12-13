@@ -1,6 +1,7 @@
-<p *ngIf="auth.isAuthenticated()">
-  home works!
-</p>
+<div *ngIf="auth.isAuthenticated()">
+  <p>Home works!</p>
+  <app-widget-top-plants></app-widget-top-plants>
+</div>
 
 <div class="panel panel-default profile-area" *ngIf="!auth.isAuthenticated()">
   <div class="panel-heading"><h3>Please login to use this application</h3></div>

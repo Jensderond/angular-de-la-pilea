@@ -1,7 +1,14 @@
 <div class="row" *ngIf="currentList">
 
   <h4>{{ currentList.room }}</h4>
+  <hr>
 
+  <div
+    *ngIf="currentList.plants[0] === undefined"
+    class="col-xs-12">
+    <p>There are no plants in this list yes.</p>
+    <hr>
+  </div>
   <div class="media" *ngFor="let plant of currentList.plants">
     <div class="media-left">
       <img
@@ -10,17 +17,30 @@
         style="width:60px">
     </div>
     <div class="media-body">
-      <h4 class="media-heading">{{ plant.name }}</h4>
+      <div
+        class="pull-left">
+        <h4 class="media-heading">{{ plant.name }}</h4>
+        <label>Last watered:</label>
+        <p>{{ plant.lastWatered }}</p>
+      </div>
       <div
         class="pull-right">
-        <p>{{ plant.lastWatered }}</p>
-        <button
-          type="button"
-          class="btn btn-danger pull-right"
-          (click)="removePlantFromList( plant.id )"
-          aria-label="Left Align">
-          Remove {{ plant.name }} from list <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        </button>
+        <div class="btn-group-vertical">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="removePlantFromList( plant.id )"
+            aria-label="Left Align">
+            Gave {{ plant.name }} water <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="removePlantFromList( plant.id )"
+            aria-label="Left Align">
+            Remove from list <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

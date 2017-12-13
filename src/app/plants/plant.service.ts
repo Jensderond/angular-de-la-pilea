@@ -24,7 +24,6 @@ export class PlantService {
       .catch(err => {
         return this.handleError(err);
       });
-      // this.plants = response as Plant[];
   }
 
   getPlant(id: string) {
@@ -37,6 +36,18 @@ export class PlantService {
         .catch(err => {
           return this.handleError(err);
         });
+  }
+
+  getTopPlants() {
+    return this.http.get(apiEndpoint + '/plants/favorites', this.auth.jwt())
+      .toPromise()
+      .then(res => {
+        this.plants = res.json();
+        return res.json() as Plant[];
+      })
+      .catch(err => {
+        return this.handleError(err);
+      });
   }
 
   addPlant(plant: Plant) {

@@ -33,6 +33,17 @@ export class PersonalPlantListDetailComponent implements OnInit {
   }
   public removePlantFromList(plantId: string) {
     this.pplService.removeFromList(this.id.toString(), plantId);
+    const plantIndex = this.findPlantIndex(this.currentList, plantId);
+    this.currentList.plants.splice(plantIndex, 1);
+  }
+
+  private findPlantIndex(list: PlantList, id: string): number {
+    for (let i = 0; i < list.plants.length; i++) {
+      if ( list.plants[i]['id'] === id ) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   public onDelete() {
