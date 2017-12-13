@@ -31,6 +31,9 @@ export class PersonalPlantListDetailComponent implements OnInit {
         }
       );
   }
+  public removePlantFromList(plantId: string) {
+    this.pplService.removeFromList(this.id.toString(), plantId);
+  }
 
   public onDelete() {
     this.pplService.deleteList(this.id.toString());

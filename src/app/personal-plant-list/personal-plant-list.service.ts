@@ -14,20 +14,19 @@ export class PersonalPlantListService {
 
   constructor(private http: Http, private auth: AuthService) {}
 
-  getLists() {
+  public getLists() {
     return this.http.get(apiEndpoint + '/plant-list', this.auth.jwt())
       .toPromise()
       .then(res => {
-        this.plantLists = res.json();
+        this.plantLists = res.json() as PlantList[];
         return res.json() as PlantList[];
       })
       .catch(err => {
         return this.handleError(err);
       });
-    // this.plants = response as Plant[];
   }
 
-  getList(id: string) {
+  public getList(id: string) {
     return this.http.get(apiEndpoint + '/plant-list/' + id , this.auth.jwt())
       .toPromise()
       .then(res => {
@@ -38,11 +37,10 @@ export class PersonalPlantListService {
       });
   }
 
-  addPlantList(list: PlantList) {
+  public addPlantList(list: PlantList) {
     this.http.post(apiEndpoint + '/plant-list', list, this.auth.jwt())
       .toPromise()
       .then(res => {
-        console.log(res.json());
         this.plantLists.push(res.json() as PlantList);
         this.plantListsChanged.next(this.plantLists.slice());
       })
@@ -51,35 +49,63 @@ export class PersonalPlantListService {
       });
   }
 
-  updatePlant(id: string, newPlant: PlantList) {
-    const index = this.findIndex(id);
+  public updatePlant(id: string, newPlantList: PlantList) {
+    const index = this.findListIndex(id);
 
-    this.plantLists[index] = newPlant;
-    this.http.put(apiEndpoint + '/plant-list/' + id, newPlant).subscribe();
+    this.plantLists[index] = newPlantList;
+    this.http.put(apiEndpoint + '/plant-list/' + id, newPlantList).subscribe();
 
     this.plantListsChanged.next(this.plantLists.slice());
   }
 
   public addToList(listId: string, plantId: string) {
-      this.http.put(apiEndpoint + '/plant-list/' + listId, { plantId: plantId }, this.auth.jwt())
-        .toPromise()
-        .then(resp => {
-          console.log(resp.json());
-        })
-        .catch((err) => {
-          return this.handleError(err);
-        });
+    this.http.put(apiEndpoint + '/plant-list/' + listId, { plantId: plantId }, this.auth.jwt())
+      .toPromise()
+      .then(resp => {
+        console.log(resp.json());
+      })
+      .catch((err) => {
+        return this.handleError(err);
+      });
+  }
+
+  public removeFromList(listId: string, plantId: string) {
+    // Remove the relationship from the database
+    this.http.delete(apiEndpoint + '/plant-list/' + listId + '/' + plantId, this.auth.jwt())
+      .toPromise()
+      .then(resp => {
+        console.log(resp.json());
+      })
+      .catch((err) => {
+        return this.handleError(err);
+      });
   }
 
   public deleteList(listId: string) {
-    const index = this.findIndex(listId);
+    const index = this.findListIndex(listId);
     this.http.delete(apiEndpoint + '/plant-list/' + listId, this.auth.jwt()).subscribe();
     this.plantLists.splice(index, 1);
     this.plantListsChanged.next(this.plantLists.slice());
   }
 
-  private findIndex(id: string): number {
+  private findPlantIndex(list: PlantList, id: string): number {
+    console.log(list);
+    for (let i = 0; i < list.plants.length; i++) {
+      if ( list.plants[i]['_id'] === id ) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private findListIndex(id: string): number {
+    console.log(':::::::id::::::');
+    console.log(id);
+    console.log(this.plantLists);
     for (let i = 0; i < this.plantLists.length; i++) {
+      console.log(this.plantLists);
+      console.log(':::::::id::::::');
+      console.log(id);
       if ( this.plantLists[i]['_id'] === id ) {
         return i;
       }

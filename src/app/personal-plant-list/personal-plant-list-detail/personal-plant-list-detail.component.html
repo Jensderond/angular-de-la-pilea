@@ -11,12 +11,17 @@
     </div>
     <div class="media-body">
       <h4 class="media-heading">{{ plant.name }}</h4>
-      <button
-        type="button"
-        class="btn btn-danger pull-right"
-        aria-label="Left Align">
-        Remove {{ plant.name }} from list <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-      </button>
+      <div
+        class="pull-right">
+        <p>{{ plant.lastWatered }}</p>
+        <button
+          type="button"
+          class="btn btn-danger pull-right"
+          (click)="removePlantFromList( plant.id )"
+          aria-label="Left Align">
+          Remove {{ plant.name }} from list <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
   </div>
   <hr>
