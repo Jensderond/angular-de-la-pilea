@@ -49,8 +49,22 @@ export class PersonalPlantListService {
       });
   }
 
+  public changeName(listId: string, newName: string) {
+    this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + listId + '/updateName' , { name: newName }, this.auth.jwt())
+      .toPromise()
+      .then(resp => {
+        console.log(resp.json());
+
+        const index = this.findListIndex(listId);
+        this.plantLists[index].room = newName;
+        this.plantListsChanged.next(this.plantLists.slice());
+      })
+      .catch((err) => {
+        return this.handleError(err);
+      });
+  }
+
   public waterPlant(listId: string, plantId: string) {
-    console.log('water: ' + plantId);
     this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + listId + '/' + plantId + '/watered', { }, this.auth.jwt())
       .toPromise()
       .then(resp => {

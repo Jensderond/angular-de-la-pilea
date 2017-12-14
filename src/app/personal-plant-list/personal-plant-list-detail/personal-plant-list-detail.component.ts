@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
 import {PlantList} from '../../shared/plant-list.model';
@@ -13,6 +13,8 @@ import * as moment from 'moment';
 export class PersonalPlantListDetailComponent implements OnInit {
   private id: string;
   public currentList: PlantList;
+  public editList: boolean;
+  public newName: string;
 
   constructor(public auth: AuthService,
               private pplService: PersonalPlantListService,
@@ -20,6 +22,7 @@ export class PersonalPlantListDetailComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    this.editList = false;
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -27,6 +30,7 @@ export class PersonalPlantListDetailComponent implements OnInit {
           this.pplService.getList(this.id.toString())
             .then(list => {
               this.currentList = list;
+              this.newName = this.currentList.room;
               for ( let i = 0; i < this.currentList.plants.length; i++) {
                 const lastTime = this.currentList.plants[i].lastWatered;
                 this.currentList.plants[i].lastWatered = moment(lastTime, 'YYYYMMDD, h:mm').fromNow();
@@ -41,6 +45,14 @@ export class PersonalPlantListDetailComponent implements OnInit {
     this.pplService.waterPlant(this.id.toString(), plantId);
     const plantIndex = this.findPlantIndex(this.currentList, plantId);
     this.currentList.plants[plantIndex].lastWatered = moment(this.getTodaysDate(), 'YYYYMMDD, h:mm').fromNow();
+  }
+
+  public editTitle() {
+    this.editList = this.editList !== true;
+    if (this.editList === false) {
+      this.pplService.changeName(this.id.toString(), this.newName );
+      this.currentList.room = this.newName;
+    }
   }
 
   public removePlantFromList(plantId: string) {
