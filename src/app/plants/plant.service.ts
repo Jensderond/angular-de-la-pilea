@@ -15,7 +15,7 @@ export class PlantService {
   constructor(private slService: PersonalPlantListService, private http: Http, private auth: AuthService) {}
 
   getPlants() {
-    return this.http.get(APP_CONFIG.apiUrlDev + '/plants', this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrl + '/plants', this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plants = res.json();
@@ -27,7 +27,7 @@ export class PlantService {
   }
 
   getPlant(id: string) {
-    return this.http.get(APP_CONFIG.apiUrlDev + '/plants/' + id , this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrl + '/plants/' + id , this.auth.jwt())
         .toPromise()
         .then(res => {
           // this.plants = res.json();
@@ -39,7 +39,7 @@ export class PlantService {
   }
 
   getTopPlants() {
-    return this.http.get(APP_CONFIG.apiUrlDev + '/plants/favorites', this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrl + '/plants/favorites', this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plants = res.json();
@@ -51,7 +51,7 @@ export class PlantService {
   }
 
   addPlant(plant: Plant) {
-    this.http.post(APP_CONFIG.apiUrlDev + '/plants', plant, this.auth.jwt())
+    this.http.post(APP_CONFIG.apiUrl + '/plants', plant, this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plants.push(res.json() as Plant);
@@ -66,7 +66,7 @@ export class PlantService {
     const index = this.findIndex(id);
 
     this.plants[index] = newPlant;
-    this.http.put(APP_CONFIG.apiUrlDev + '/plants/' + id, newPlant).subscribe();
+    this.http.put(APP_CONFIG.apiUrl + '/plants/' + id, newPlant).subscribe();
 
     this.plantsChanged.next(this.plants.slice());
   }
@@ -75,7 +75,7 @@ export class PlantService {
     const old = this.plants[index];
     this.plants.splice(index, 1);
 
-    this.http.delete(APP_CONFIG.apiUrlDev + '/plants/' + old.id).subscribe();
+    this.http.delete(APP_CONFIG.apiUrl + '/plants/' + old.id).subscribe();
 
     this.plantsChanged.next(this.plants.slice());
   }

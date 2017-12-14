@@ -15,7 +15,7 @@ export class PersonalPlantListService {
   constructor(private http: Http, private auth: AuthService) {}
 
   public getLists() {
-    return this.http.get(APP_CONFIG.apiUrlDev + '/plant-list', this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrl + '/plant-list', this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plantLists = res.json() as PlantList[];
@@ -27,7 +27,7 @@ export class PersonalPlantListService {
   }
 
   public getList(id: string) {
-    return this.http.get(APP_CONFIG.apiUrlDev + '/plant-list/' + id , this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrl + '/plant-list/' + id , this.auth.jwt())
       .toPromise()
       .then(res => {
         return res.json() as PlantList;
@@ -38,7 +38,7 @@ export class PersonalPlantListService {
   }
 
   public addPlantList(list: PlantList) {
-    this.http.post(APP_CONFIG.apiUrlDev + '/plant-list', list, this.auth.jwt())
+    this.http.post(APP_CONFIG.apiUrl + '/plant-list', list, this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plantLists.push(res.json() as PlantList);
@@ -50,7 +50,7 @@ export class PersonalPlantListService {
   }
 
   public changeName(listId: string, newName: string) {
-    this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + listId + '/updateName' , { name: newName }, this.auth.jwt())
+    this.http.put(APP_CONFIG.apiUrl + '/plant-list/' + listId + '/updateName' , { name: newName }, this.auth.jwt())
       .toPromise()
       .then(resp => {
         console.log(resp.json());
@@ -65,7 +65,7 @@ export class PersonalPlantListService {
   }
 
   public waterPlant(listId: string, plantId: string) {
-    this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + listId + '/' + plantId + '/watered', { }, this.auth.jwt())
+    this.http.put(APP_CONFIG.apiUrl + '/plant-list/' + listId + '/' + plantId + '/watered', { }, this.auth.jwt())
       .toPromise()
       .then(resp => {
         console.log(resp.json());
@@ -76,7 +76,7 @@ export class PersonalPlantListService {
   }
 
   public addToList(listId: string, plantId: string) {
-    this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + listId, { plantId: plantId }, this.auth.jwt())
+    this.http.put(APP_CONFIG.apiUrl + '/plant-list/' + listId, { plantId: plantId }, this.auth.jwt())
       .toPromise()
       .then(resp => {
         console.log(resp.json());
@@ -88,7 +88,7 @@ export class PersonalPlantListService {
 
   public removeFromList(listId: string, plantId: string) {
     // Remove the relationship from the database
-    this.http.delete(APP_CONFIG.apiUrlDev + '/plant-list/' + listId + '/' + plantId, this.auth.jwt())
+    this.http.delete(APP_CONFIG.apiUrl + '/plant-list/' + listId + '/' + plantId, this.auth.jwt())
       .toPromise()
       .then(resp => {
         console.log(resp.json());
@@ -100,7 +100,7 @@ export class PersonalPlantListService {
 
   public deleteList(listId: string) {
     const index = this.findListIndex(listId);
-    this.http.delete(APP_CONFIG.apiUrlDev + '/plant-list/' + listId, this.auth.jwt()).subscribe();
+    this.http.delete(APP_CONFIG.apiUrl + '/plant-list/' + listId, this.auth.jwt()).subscribe();
     this.plantLists.splice(index, 1);
     this.plantListsChanged.next(this.plantLists.slice());
   }
