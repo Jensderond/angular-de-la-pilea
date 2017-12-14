@@ -15,7 +15,7 @@ export class UserService {
   addUser(user: User) {
     return this.http.post(APP_CONFIG.apiUrl + '/register', user, this.auth.jwt())
       .map((response: Response) => {
-        return response.status === 200;
+        return response.status === 201;
       })
       .catch(err => {
         // return this.handleError(err);
