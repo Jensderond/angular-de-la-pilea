@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { TOKEN_NAME } from '../shared/data.service';
+import { APP_CONFIG } from '../shared/data.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -8,7 +8,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate() {
-    if (localStorage.getItem(TOKEN_NAME)) {
+    if ( localStorage.getItem( APP_CONFIG.tokenName ) ) {
       // logged in so return true
       return true;
     }

@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Injectable, Input} from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {apiEndpoint } from './data.service';
+import {APP_CONFIG } from './data.service';
 import {AuthService} from '../auth/auth.service';
 import {User} from './user.model';
 import {Observable} from 'rxjs/Observable';
@@ -13,7 +13,7 @@ export class UserService {
   constructor(private http: Http, private auth: AuthService) {}
 
   addUser(user: User) {
-    return this.http.post(apiEndpoint + '/register', user, this.auth.jwt())
+    return this.http.post(APP_CONFIG.apiUrlDev + '/register', user, this.auth.jwt())
       .map((response: Response) => {
         return response.status === 200;
       })

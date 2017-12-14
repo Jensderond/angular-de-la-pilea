@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { Plant } from '../shared/plant.model';
 import { PersonalPlantListService } from '../personal-plant-list/personal-plant-list.service';
 import {Headers, Http} from '@angular/http';
-import { apiEndpoint } from '../shared/data.service';
+import { APP_CONFIG } from '../shared/data.service';
 import {AuthService} from '../auth/auth.service';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class PlantService {
   constructor(private slService: PersonalPlantListService, private http: Http, private auth: AuthService) {}
 
   getPlants() {
-    return this.http.get(apiEndpoint + '/plants', this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrlDev + '/plants', this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plants = res.json();
@@ -27,7 +27,7 @@ export class PlantService {
   }
 
   getPlant(id: string) {
-    return this.http.get(apiEndpoint + '/plants/' + id , this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrlDev + '/plants/' + id , this.auth.jwt())
         .toPromise()
         .then(res => {
           // this.plants = res.json();
@@ -39,7 +39,7 @@ export class PlantService {
   }
 
   getTopPlants() {
-    return this.http.get(apiEndpoint + '/plants/favorites', this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrlDev + '/plants/favorites', this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plants = res.json();
@@ -51,7 +51,7 @@ export class PlantService {
   }
 
   addPlant(plant: Plant) {
-    this.http.post(apiEndpoint + '/plants', plant, this.auth.jwt())
+    this.http.post(APP_CONFIG.apiUrlDev + '/plants', plant, this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plants.push(res.json() as Plant);
@@ -66,7 +66,7 @@ export class PlantService {
     const index = this.findIndex(id);
 
     this.plants[index] = newPlant;
-    this.http.put(apiEndpoint + '/plants/' + id, newPlant).subscribe();
+    this.http.put(APP_CONFIG.apiUrlDev + '/plants/' + id, newPlant).subscribe();
 
     this.plantsChanged.next(this.plants.slice());
   }
@@ -75,7 +75,7 @@ export class PlantService {
     const old = this.plants[index];
     this.plants.splice(index, 1);
 
-    this.http.delete(apiEndpoint + '/plants/' + old.id).subscribe();
+    this.http.delete(APP_CONFIG.apiUrlDev + '/plants/' + old.id).subscribe();
 
     this.plantsChanged.next(this.plants.slice());
   }

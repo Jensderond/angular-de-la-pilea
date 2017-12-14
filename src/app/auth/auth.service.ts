@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers, Response, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import * as jwt_decode from 'jwt-decode';
-import { TOKEN_NAME, apiEndpoint } from '../shared/data.service';
+import { APP_CONFIG } from '../shared/data.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -23,7 +23,6 @@ export class AuthService {
 
   }
 
-
   public jwt() {
     if ( this.getToken() ) {
       const headers = new Headers({ 'Content-Type': 'application/json', 'X-Access-Token': this.getToken() });
@@ -32,11 +31,11 @@ export class AuthService {
   }
 
   public getToken(): string {
-    return localStorage.getItem(TOKEN_NAME);
+    return localStorage.getItem(APP_CONFIG.tokenName);
   }
 
   private setToken(token: string): void {
-    localStorage.setItem(TOKEN_NAME, token);
+    localStorage.setItem(APP_CONFIG.tokenName, token);
   }
 
   public getUserId(): string {
@@ -58,7 +57,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<boolean> {
-    return this.http.post( apiEndpoint + '/authenticate', { email: username, password: password })
+    return this.http.post( APP_CONFIG.apiUrlDev + '/authenticate', { email: username, password: password })
       .map((response: Response) => {
         // login successful if there's a jwt token in the response
         const responseToken = response.json().token;
@@ -83,6 +82,6 @@ export class AuthService {
 
   logout(): void {
     // clear token remove user from local storage to log user out
-    localStorage.removeItem(TOKEN_NAME);
+    localStorage.removeItem(APP_CONFIG.tokenName);
   }
 }

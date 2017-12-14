@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { Plant } from '../shared/plant.model';
 import {Headers, Http} from '@angular/http';
-import { apiEndpoint } from '../shared/data.service';
+import { APP_CONFIG } from '../shared/data.service';
 import {AuthService} from '../auth/auth.service';
 import {PlantList} from '../shared/plant-list.model';
 
@@ -15,7 +15,7 @@ export class PersonalPlantListService {
   constructor(private http: Http, private auth: AuthService) {}
 
   public getLists() {
-    return this.http.get(apiEndpoint + '/plant-list', this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrlDev + '/plant-list', this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plantLists = res.json() as PlantList[];
@@ -27,7 +27,7 @@ export class PersonalPlantListService {
   }
 
   public getList(id: string) {
-    return this.http.get(apiEndpoint + '/plant-list/' + id , this.auth.jwt())
+    return this.http.get(APP_CONFIG.apiUrlDev + '/plant-list/' + id , this.auth.jwt())
       .toPromise()
       .then(res => {
         return res.json() as PlantList;
@@ -38,7 +38,7 @@ export class PersonalPlantListService {
   }
 
   public addPlantList(list: PlantList) {
-    this.http.post(apiEndpoint + '/plant-list', list, this.auth.jwt())
+    this.http.post(APP_CONFIG.apiUrlDev + '/plant-list', list, this.auth.jwt())
       .toPromise()
       .then(res => {
         this.plantLists.push(res.json() as PlantList);
@@ -53,13 +53,13 @@ export class PersonalPlantListService {
     const index = this.findListIndex(id);
 
     this.plantLists[index] = newPlantList;
-    this.http.put(apiEndpoint + '/plant-list/' + id, newPlantList).subscribe();
+    this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + id, newPlantList).subscribe();
 
     this.plantListsChanged.next(this.plantLists.slice());
   }
 
   public addToList(listId: string, plantId: string) {
-    this.http.put(apiEndpoint + '/plant-list/' + listId, { plantId: plantId }, this.auth.jwt())
+    this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + listId, { plantId: plantId }, this.auth.jwt())
       .toPromise()
       .then(resp => {
         console.log(resp.json());
@@ -71,7 +71,7 @@ export class PersonalPlantListService {
 
   public removeFromList(listId: string, plantId: string) {
     // Remove the relationship from the database
-    this.http.delete(apiEndpoint + '/plant-list/' + listId + '/' + plantId, this.auth.jwt())
+    this.http.delete(APP_CONFIG.apiUrlDev + '/plant-list/' + listId + '/' + plantId, this.auth.jwt())
       .toPromise()
       .then(resp => {
         console.log(resp.json());
@@ -83,7 +83,7 @@ export class PersonalPlantListService {
 
   public deleteList(listId: string) {
     const index = this.findListIndex(listId);
-    this.http.delete(apiEndpoint + '/plant-list/' + listId, this.auth.jwt()).subscribe();
+    this.http.delete(APP_CONFIG.apiUrlDev + '/plant-list/' + listId, this.auth.jwt()).subscribe();
     this.plantLists.splice(index, 1);
     this.plantListsChanged.next(this.plantLists.slice());
   }
