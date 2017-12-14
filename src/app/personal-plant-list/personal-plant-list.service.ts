@@ -53,8 +53,6 @@ export class PersonalPlantListService {
     this.http.put(APP_CONFIG.apiUrl + '/plant-list/' + listId + '/updateName' , { name: newName }, this.auth.jwt())
       .toPromise()
       .then(resp => {
-        console.log(resp.json());
-
         const index = this.findListIndex(listId);
         this.plantLists[index].room = newName;
         this.plantListsChanged.next(this.plantLists.slice());
