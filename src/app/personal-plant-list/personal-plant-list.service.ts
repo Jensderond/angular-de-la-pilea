@@ -49,13 +49,16 @@ export class PersonalPlantListService {
       });
   }
 
-  public updatePlant(id: string, newPlantList: PlantList) {
-    const index = this.findListIndex(id);
-
-    this.plantLists[index] = newPlantList;
-    this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + id, newPlantList).subscribe();
-
-    this.plantListsChanged.next(this.plantLists.slice());
+  public waterPlant(listId: string, plantId: string) {
+    console.log('water: ' + plantId);
+    this.http.put(APP_CONFIG.apiUrlDev + '/plant-list/' + listId + '/' + plantId + '/watered', { }, this.auth.jwt())
+      .toPromise()
+      .then(resp => {
+        console.log(resp.json());
+      })
+      .catch((err) => {
+        return this.handleError(err);
+      });
   }
 
   public addToList(listId: string, plantId: string) {

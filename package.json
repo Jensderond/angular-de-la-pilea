@@ -16,9 +16,9 @@
   "dependencies": {
     "@angular/animations": "^5.0.0",
     "@angular/cli": "1.5.0",
-    "@angular/compiler-cli": "^5.0.0",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
+    "@angular/compiler-cli": "^5.0.0",
     "@angular/core": "^5.0.0",
     "@angular/forms": "^5.0.0",
     "@angular/http": "^5.0.0",
@@ -32,10 +32,11 @@
     "express": "^4.16.2",
     "jwks-rsa": "^1.1.1",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.19.4",
     "npm-run-all": "^4.0.1",
     "rxjs": "^5.5.2",
-    "zone.js": "^0.8.14",
-    "typescript": "~2.4.2"
+    "typescript": "~2.4.2",
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@angular/cli": "1.5.0",
